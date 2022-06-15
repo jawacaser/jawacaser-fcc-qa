@@ -29,10 +29,16 @@ app.use(passport.session());
 myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
 
+  
+  app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
+    res.render('pug/profile')
+  })
+
   app.route('/').get((req, res) => {
     res.render('pug', { 
       title: 'Connected to Database', 
-      message: 'Please login' 
+      message: 'Please login',
+      showLogin: true 
     });
   });
 
